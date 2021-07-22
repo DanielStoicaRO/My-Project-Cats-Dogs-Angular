@@ -1,0 +1,145 @@
+<div class="card card-body">
+  <h2><img width="80" src="assets/imagine/gifDog2.gif"> Dogs </h2>
+  <hr>
+  <!--  Afisare cu divuri-->
+  <!--  <div *ngFor="let dog of doggies">-->
+  <!--    Name: {{dog.name}}; Age: {{dog.age}}; Race: {{dog.race}}-->
+  <!--  </div>-->
+
+  <!-- lista ordonata-->
+  <!--    <ol>-->
+  <!--      <li *ngFor="let dog of doggies">-->
+  <!--        Name: {{dog.name}}; Age: {{dog.age}}; Race: {{dog.race}}-->
+  <!--      </li>-->
+  <!--    </ol>-->
+
+
+  <!--  <ol>-->
+  <!--    &lt;!&ndash;  aici folosim componenta dog-list-element&ndash;&gt;-->
+  <!--    <app-dog-list-element *ngFor="let dog of doggies" [dog]="dog"></app-dog-list-element>-->
+  <!--  </ol>-->
+
+  <!--  <ul>-->
+  <!--    <li *ngFor="let dog of doggies">-->
+  <!--      Name: {{dog.name}}; Age: {{dog.age}}; Race: {{dog.race}}-->
+  <!--    </li>-->
+  <!--  </ul>-->
+
+  <ngb-alert *ngIf="doggies.length<5" [dismissible]="false">
+    <strong>Warning!</strong> Who let the dogs out?!
+  </ngb-alert>
+
+  <table class="table table-striped">
+    <thead class="thead-light">
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Race</th>
+      <th>Operation</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let dog of doggies; let i = index ">
+      <td>{{dog.name}}</td>
+      <td>{{dog.age}}</td>
+      <td>{{dog.race}}</td>
+
+      <td>
+        <div *ngIf="!editModeOn" class="btn-group">
+          <!--buton pentru ROOTING-->
+          <button (click)="goToDogDetails(i)" class="btn btn-outline-secondary mr-1"><i
+            class="bi bi-bootstrap-reboot"></i>
+          </button>
+
+          <!--buton PEN pt delete-->
+          <button (click)="enterEditMode(dog)" class="btn btn-outline-primary mr-1"><i class="bi bi-pencil"></i>
+          </button>
+
+          <!--buton pt delete-->
+          <button (click)="openDeleteConfirmationModal(deleteModal, i)" class="btn btn-outline-danger"><i
+            class="bi bi-trash-fill"></i></button>
+        </div>
+      </td>
+    </tr>
+
+
+    <!--Butoanele de sub menu pentru input, de tip TABEL-->
+    <!--    Two-way binding-->
+  </table>
+  <div class="row">
+    <div class="col-sm-2">
+      <!--      butoanele de editare si adaugare-->
+      <button *ngIf="!editModeOn"
+              [disabled]="currentDog.name.length===0 || currentDog.race.length===0 || currentDog.age<0"
+              (click)="onAddDogClick()"
+              class="btn btn-outline-success"><i class="bi bi-person-plus"></i> Add Dog
+      </button>
+
+      <button *ngIf="editModeOn"
+              [disabled]="currentDog.name.length===0 || currentDog.race.length===0 || currentDog.age<0"
+              (click)="leaveEditMode()"
+              class="btn btn-outline-primary"><i class="bi bi-check-square"> </i> Save
+      </button>
+    </div>
+
+    <div class="col-sm-4">
+      <input [(ngModel)]="currentDog.name" name="dogName" class="form-control" placeholder="Name...."/>
+    </div>
+
+    <div class="col-sm-2">
+      <input min="0" max="20" [(ngModel)]="currentDog.age" name="dogAge" type="number" class="form-control"
+             placeholder="Age...."/>
+    </div>
+
+    <div class="col-sm-4">
+      <input [(ngModel)]="currentDog.race" name="dogRace" class="form-control" placeholder="Race...."/>
+    </div>
+  </div>
+
+  <!-- br lasa un spatiu-->
+  <br>
+  <div>
+    <button (click)="open(content)" class="btn btn-primary">Woof!</button>
+  </div>
+</div>
+
+
+<!--Modal with default options-->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title1">Who let the dogs out?!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Woof! Woof! Woof!
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Save click')">Cancel</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close('Save click')">Confirm</button>
+
+  </div>
+</ng-template>
+
+<ng-template #deleteModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title2">DELETE MODAL</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    Please Confirm deletion of this dog: <br>
+    <!--adaugare poza in lista-->
+    <app-dog-list-element [dog]="dogToDelete"></app-dog-list-element>
+    <img width="100" src="assets/imagine/dogicon.jpg">
+
+    <app-dog-list-element [dog]="dogToDelete"></app-dog-list-element>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger" (click)="modal.dismiss('Save click')">Cancel</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close('Save click')">Confirm</button>
+  </div>
+</ng-template>

@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+
+@import '~bootstrap/scss/bootstrap';
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap-icons/font/bootstrap-icons.css';
+
+
+//pentru background imagine
+body {
+  background-color: brown;
+  background : url("assets/imagine/dogss.jpg") no-repeat center center fixed;
+  background-size: cover;
+
+
+
+  //background-image: url("assets/imagine/background.jpg");
+  //height: 100%;
+  //background-position: center;
+  //background-repeat: no-repeat;
+  //background-size: cover;
+
+
+}
+
+

@@ -1,0 +1,135 @@
+<div class="card card-body">
+  <h2> <img width="70" src="assets/imagine/gifCat.gif"> Cats </h2>
+  <hr>
+
+  <ngb-alert *ngIf="catties.length<5" [dismissible]="false">
+    <strong>Warning!</strong> Who let the cats out?!
+  </ngb-alert>
+
+<!--  TABEL-->
+  <table class="table table-striped">
+    <thead class="thead-light">
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Weight</th>
+      <th>Race</th>
+      <th>Color</th>
+      <th>Operation</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let cat of catties; let i = index ">
+      <td>{{cat.name}}</td>
+      <td>{{cat.age}}</td>
+      <td>{{cat.weight}}</td>
+      <td>{{cat.race}}</td>
+      <td>{{cat.color}}</td>
+
+      <td>
+        <div *ngIf="!editModeOn" class="btn-group">
+          <!--buton pen pt delete-->
+          <button (click)="enterEditMode(cat)" class="btn btn-outline-primary mr-1"><i class="bi bi-pencil"></i>
+          </button>
+          <!--buton pt delete-->
+          <button (click)="openDeleteConfirmationModal(deleteModal, i)" class="btn btn-outline-danger"><i
+            class="bi bi-trash-fill"></i></button>
+        </div>
+      </td>
+    </tr>
+
+
+    <!--Butoanele de sub menu pentru input, de tip TABEL-->
+    <!--    Two-way binding-->
+  </table>
+  <div class="row">
+    <div class="col-sm-2">
+      <!--      butoanele de editare si adaugare-->
+      <button *ngIf="!editModeOn"
+              [disabled]="currentCat.name.length===0 || currentCat.race.length===0 || currentCat.age<0"
+              (click)="onAddCatClick()"
+              class="btn btn-outline-success"><i class="bi bi-person-plus"></i> Add Cat
+      </button>
+
+      <button *ngIf="editModeOn"
+              [disabled]="currentCat.name.length===0 || currentCat.race.length===0 || currentCat.age<0"
+              (click)="leaveEditMode()"
+              class="btn btn-outline-primary"><i class="bi bi-check-square"> </i> Save
+      </button>
+    </div>
+
+    <div class="col-sm-2">
+      <input [(ngModel)]="currentCat.name" name="catName" class="form-control"
+             placeholder="Name...."/>
+    </div>
+
+    <div class="col-sm-2">
+      <input min="0" max="20" [(ngModel)]="currentCat.age" name="catAge" type="number" class="form-control"
+             placeholder="Age...."/>
+    </div>
+
+    <div class="col-sm-2">
+      <input min="0" max="20" [(ngModel)]="currentCat.weight" name="catWeight" type="number" class="form-control"
+             placeholder="Weight...."/>
+    </div>
+
+    <div class="col-sm-2">
+      <input [(ngModel)]="currentCat.race" name="catRace" class="form-control"
+             placeholder="Race...."/>
+    </div>
+
+    <div class="col-sm-2">
+      <input [(ngModel)]="currentCat.color" name="catColor" class="form-control"
+             placeholder="Color...."/>
+    </div>
+  </div>
+
+  <!-- br lasa un spatiu-->
+  <br>
+  <div>
+    <button (click)="open(content)" class="btn btn-default">ClickOnMe <img width="80" src="assets/imagine/gifCatHello.gif"> </button>
+  </div>
+
+</div>
+
+<!--Modal with default options-->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title1">  I Love You ! Do U Love Me?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <img width="150" src="assets/imagine/gifCat11.gif"> <img width="150" src="assets/imagine/gifCat14.gif"><img width="150" src="assets/imagine/gifcat12.gif">
+  </div>
+  <div class="modal-footer">
+<!--    Banner POP-UP LOVE ME OR NOT?!-->
+    <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Save click')">NO</button>
+    <button (click)="goToLoveMe()" type="button" class="btn btn-outline-danger" >YES</button>
+<!--    (click)="modal.close('Save click')"-->
+  </div>
+</ng-template>
+
+<ng-template #deleteModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title2">DELETE MODAL</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    Please Confirm deletion of this cat: <br>
+    <!--adaugare poza in lista-->
+    <app-cats-list-element [cat]="catToDelete"></app-cats-list-element>
+    <img width="100" src="assets/imagine/caticon.jpg">
+
+
+    <app-cats-list-element [cat]="catToDelete"></app-cats-list-element>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger" (click)="modal.dismiss('Save click')">Cancel</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close('Save click')">Confirm</button>
+  </div>
+</ng-template>
